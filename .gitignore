@@ -1,2 +1,4 @@
-.rope
+.ropeproject
 *.pyc
+*file_metadata*
+tests/data
