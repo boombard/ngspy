@@ -1,8 +1,13 @@
 from flask import Flask
-from app.extensions import db
+from ngspy.app.config import BaseConfig, TestConfig
+from ngspy.app.extensions import db
+import ngspy.app.models
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ge2:123456@localhost/experiments'
-db.init_app(app)
 
+def create_app(config=BaseConfig):
+    app = Flask(__name__)
+    app.config.from_object(config)
+    db.init_app(app)
+
+    return app
 

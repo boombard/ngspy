@@ -5,6 +5,7 @@ import os
 import shutil
 import click
 
+
 class Renamer(object):
 
     def __init__(self, folder=None, interactive=False):

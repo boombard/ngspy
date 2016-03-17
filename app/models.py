@@ -1,20 +1,22 @@
-from flask.ext.sqlalchemy import Column, Integer, String, ForeignKey, Date
+from sqlalchemy import Column, Integer, String, ForeignKey, Date
 from extensions import db
 
 
-class IdModel(db.Model):
+class IdModel(object):
 
     id = Column(Integer, nullable=False, primary_key=True)
 
 
-class Team(IdModel):
+class Team(db.Model, IdModel):
 
     __tablename__ = 'team'
 
     name = Column(String, unique=True)
 
+    users = db.relationship('User', backref=db.backref('team'))
 
-class User(IdModel):
+
+class User(db.Model, IdModel):
 
     __tablename__ = 'user'
 
@@ -22,7 +24,7 @@ class User(IdModel):
     team_id = Column(Integer, ForeignKey('team.id'))
 
 
-class Experiment(IdModel):
+class Experiment(db.Model, IdModel):
 
     __tablename__ = 'experiment'
 
@@ -33,18 +35,18 @@ class Experiment(IdModel):
     user_id = Column(Integer, ForeignKey('user.id'))
 
 
-class Organism(IdModel):
+class Organism(db.Model, IdModel):
 
     __tablename__ = 'organism'
 
-    common_name = Column(String(nullable=False))
+    common_name = Column(String, nullable=False)
     latin_name = Column(String)
 
     reference_genomes = db.relationship('ReferenceGenome',
                                         backref=db.backref('organism'))
 
 
-class ReferenceGenome(IdModel):
+class ReferenceGenome(db.Model, IdModel):
 
     __tablename__ = 'reference_genome'
 
@@ -56,7 +58,7 @@ class ReferenceGenome(IdModel):
     organism_id = Column(Integer, ForeignKey('organism.id'))
 
 
-class ReferenceIndex(IdModel):
+class ReferenceIndex(db.Model, IdModel):
 
     __tablename__ = 'reference_index'
 
@@ -70,7 +72,7 @@ class ReferenceIndex(IdModel):
     reference_genome = db.relationship('ReferenceGenome')
 
 
-class Tool(IdModel):
+class Tool(db.Model, IdModel):
 
     __tablename__ = 'tool'
 
@@ -80,7 +82,7 @@ class Tool(IdModel):
     default_command = Column(String)
 
 
-class DataSet(IdModel):
+class DataSet(db.Model, IdModel):
 
     __tablename__ = 'dataset'
 
@@ -93,7 +95,7 @@ class DataSet(IdModel):
     files = db.relationship('DataFile', backref=db.backref('dataset'))
 
 
-class DataFile(IdModel):
+class DataFile(db.Model, IdModel):
 
     __tablename__ = 'data_file'
 
