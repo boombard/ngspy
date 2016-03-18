@@ -30,6 +30,7 @@ class BaseTest(unittest.TestCase):
             db.session.add(team)
             user = User(name='test_user', team=team)
             db.session.add(user)
+            organism = Organism(common_name='Mouse', latin_name='M. Musculus')
             db.session.commit()
 
     def tearDown(self):

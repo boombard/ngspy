@@ -41,6 +41,7 @@ class Organism(db.Model, IdModel):
 
     common_name = Column(String, nullable=False)
     latin_name = Column(String)
+    embl_name = Column(String)
 
     reference_genomes = db.relationship('ReferenceGenome',
                                         backref=db.backref('organism'))
@@ -106,5 +107,4 @@ class DataFile(db.Model, IdModel):
     sanger_id = Column(String)
 
     dataset_id = Column(Integer, ForeignKey('dataset.id'))
-
 
